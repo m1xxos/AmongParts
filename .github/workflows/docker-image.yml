@@ -30,8 +30,8 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: m1xxos/AmongPartsAPI:latest
+        tags: m1xxos/amongpartsapi:latest
     
     - name: Brun docker image
-      run: docker run -d --name api -p 80:80 -e MONGODB_URL= ${{ secrets.MONGODB_URL }} AmongPartsAPI
+      run: docker run -d --name api -p 80:80 -e MONGODB_URL= ${{ secrets.MONGODB_URL }} amongpartsapi
 
