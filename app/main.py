@@ -1,6 +1,7 @@
-from fastapi import FastAPI, HTTPException
-from databases.motherboard_database import *
+from fastapi import FastAPI, HTTPException, Depends
+from app.databases.motherboard_database import *
 from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
 
 origins = [
@@ -26,11 +27,11 @@ async def post_motherboard(motherboard: MotherBoard):
     response = await create_motherboard(motherboard.dict())
     if response:
         return response
-    raise HTTPException(400, "я сломался")
+    raise HTTPException(404, "я сломался")
 
 
 @app.get("/motherboard/all", response_model=list[MotherBoard])
-async def get_motherboard(limit: int = 10, skip: int = 0, ):
+async def get_motherboard(limit: int = 10, skip: int = 0):
     response = await fetch_all_motherboards(limit, skip)
     return response
 
@@ -43,9 +44,9 @@ async def get_motherboard_by_name(name: str):
     raise HTTPException(404, "бро, такого нету")
 
 
-@app.get("/motherboard/find",)
-async def get_motherboard_by_parameters(motherboard: MotherBoardSearch):
-    response = await fetch_motherboard_by_params(motherboard)
+@app.get("/motherboard/find", response_model=list[MotherBoard])
+async def get_motherboard_by_parameters(model: MotherBoardSearch = Depends(), limit: int = 10, skip: int = 0):
+    response = await fetch_motherboard_by_params(model, limit, skip)
     return response
 
 
