@@ -6,7 +6,7 @@ from typing import Optional, List
 
 class MotherBoard(BaseModel):
     name: str
-    price: int = Query(None, ge=1)
+    price: int = Query(..., ge=1)
     brand: str
     type: str
     socket: str

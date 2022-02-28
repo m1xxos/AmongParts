@@ -64,13 +64,13 @@ async def fetch_motherboard_by_params(motherboard, limit, skip):
     if motherboard.pci_5:
         search["pci_5"] = {'$gte': 1}
     if motherboard.raid:
-        search["raid"] = {'raid': True}
+        search["raid"] = True
     if motherboard.optane:
-        search["optane"] = {'optane': True}
+        search["optane"] = True
     if motherboard.wi_fi:
-        search["wi_fi"] = {'wi_fi': True}
+        search["wi_fi"] = True
     if motherboard.bluetooth:
-        search["bluetooth"] = {'bluetooth': True}
+        search["bluetooth"] = True
     if motherboard.memory_type:
         search["memory_type"] = {'$in': motherboard.memory_type}
     if motherboard.sata:

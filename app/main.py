@@ -1,8 +1,12 @@
 from fastapi import FastAPI, HTTPException, Depends
 from app.databases.motherboard_database import *
+from app.databases.cpu_database import *
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+DEFAULT_LIMIT = 10
+DEFAULT_SKIP = 0
+
 
 origins = [
     "http://localhost:3000",
@@ -31,7 +35,7 @@ async def post_motherboard(motherboard: MotherBoard):
 
 
 @app.get("/motherboard/all", response_model=list[MotherBoard])
-async def get_motherboard(limit: int = 10, skip: int = 0):
+async def get_motherboard(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
     response = await fetch_all_motherboards(limit, skip)
     return response
 
@@ -45,44 +49,34 @@ async def get_motherboard_by_name(name: str):
 
 
 @app.get("/motherboard/find", response_model=list[MotherBoard])
-async def get_motherboard_by_parameters(model: MotherBoardSearch = Depends(), limit: int = 10, skip: int = 0):
+async def get_motherboard_by_parameters(model: MotherBoardSearch = Depends(), limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
     response = await fetch_motherboard_by_params(model, limit, skip)
     return response
 
 
-# @app.get("/api/todo")
-# async def get_todo():
-#     response = await fetch_all_todos()
-#     return response
-#
-#
-# @app.get("/api/todo/{title}", response_model=Todo)
-# async def get_todo_by_title(title):
-#     response = await fetch_one_todo(title)
-#     if response:
-#         return response
-#     raise HTTPException(404, f"There is no todo with the title {title}")
-#
-#
-# @app.post("/api/todo/", response_model=Todo)
-# async def post_todo(todo: Todo):
-#     response = await create_todo(todo.dict())
-#     if response:
-#         return response
-#     raise HTTPException(400, "Something went wrong")
-#
-#
-# @app.put("/api/todo/{title}/", response_model=Todo)
-# async def put_todo(title: str, desc: str):
-#     response = await update_todo(title, desc)
-#     if response:
-#         return response
-#     raise HTTPException(404, f"There is no todo with the title {title}")
-#
-#
-# @app.delete("/api/todo/{title}")
-# async def delete_todo(title):
-#     response = await remove_todo(title)
-#     if response:
-#         return "Successfully deleted todo"
-#     raise HTTPException(404, f"There is no todo with the title {title}")
+@app.post("/cpu/", response_model=CPU)
+async def post_cpu(cpu: CPU):
+    response = await create_cpu(cpu.dict())
+    if response:
+        return response
+    raise HTTPException(404, "я сломался")
+
+
+@app.get("/cpu/all", response_model=list[CPU])
+async def get_motherboard(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
+    response = await fetch_all_cpus(limit, skip)
+    return response
+
+
+@app.get("/cpu/find/{name}", response_model=list[CPU])
+async def get_motherboard_by_name(name: str):
+    response = await fetch_one_cpu(name)
+    if response:
+        return response
+    raise HTTPException(404, "бро, такого нету")
+
+
+@app.get("/cpu/find", response_model=list[CPU])
+async def get_motherboard_by_parameters(model: CPUSearch = Depends(), limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
+    response = await fetch_cpu_by_params(model, limit, skip)
+    return response
