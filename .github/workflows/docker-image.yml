@@ -33,5 +33,7 @@ jobs:
         tags: m1xxos/amongpartsapi:latest
     
     - name: Brun docker image
-      run: docker run -d --name api -p 80:80 -e MONGODB_URL='mongodb://root:example@144.24.171.243:27017' m1xxos/amongpartsapi
+      run: |
+        docker rm -f api
+        docker run -d --name api -p 80:80 -e MONGODB_URL='mongodb://root:example@144.24.171.243:27017' m1xxos/amongpartsapi
 
