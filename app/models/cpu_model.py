@@ -39,6 +39,8 @@ class CPUSearch:
     brand: List[str] = Query(None)
     series: List[str] = Query(None)
     socket: List[str] = Query(None)
+    min_frequency: Optional[int] = Query(None, ge=1)
+    max_frequency: Optional[int] = Query(None, ge=1)
     cpu_cores: List[int] = Query(None)
     graphics: Optional[bool] = None
     multiplier: Optional[bool] = None
