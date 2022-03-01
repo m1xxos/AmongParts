@@ -8,12 +8,13 @@ class CPU(BaseModel):
     name: str
     price: int = Query(..., ge=1)
     brand: str
+    manufacture: str
     type: str
     series: str
     core: str
     socket: str
-    cpu_cores: int = Query(None, ge=1)
-    cpu_threads: int = Query(None, ge=1)
+    cpu_cores: int = Query(..., ge=1)
+    cpu_threads: int = Query(..., ge=1)
     frequency: float
     frequency_turbo: float
     l3_cache: int
@@ -34,9 +35,10 @@ class CPU(BaseModel):
 @dataclass
 class CPUSearch:
     min_price: Optional[int] = Query(None, ge=1)
-    max_price: Optional[int] = Query(None, le=80000)
+    max_price: Optional[int] = Query(None)
     type: List[str] = Query(None)
     brand: List[str] = Query(None)
+    manufacture: List[str] = Query(None)
     series: List[str] = Query(None)
     socket: List[str] = Query(None)
     min_frequency: Optional[int] = Query(None, ge=1)

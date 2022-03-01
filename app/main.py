@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends
 from app.databases.motherboard_database import *
 from app.databases.cpu_database import *
+from app.databases.ram_database import *
+from app.databases.gpu_database import *
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -16,6 +18,8 @@ database = client.AmongParts
 
 cpu_api = CpuDB(database.cpu, CPU)
 motherboard_api = MotherboardDB(database.motherboard, MotherBoard)
+ram_api = RamDB(database.ram, RAM)
+gpu_api = GpuDB(database.gpu, GPU)
 
 
 origins = [
@@ -36,7 +40,7 @@ async def read_root():
     return {"Hello": "World"}
 
 
-@app.post("/motherboard/", response_model=MotherBoard)
+@app.post("/motherboard/", response_model=MotherBoard, tags=["Motherboard"])
 async def post_motherboard(motherboard: MotherBoard):
     response = await motherboard_api.create_one(motherboard.dict())
     if response:
@@ -44,13 +48,13 @@ async def post_motherboard(motherboard: MotherBoard):
     raise HTTPException(404, "я сломался")
 
 
-@app.get("/motherboard/all", response_model=list[MotherBoard])
+@app.get("/motherboard/all", response_model=list[MotherBoard], tags=["Motherboard"])
 async def get_motherboard(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
     response = await motherboard_api.fetch_all(limit, skip)
     return response
 
 
-@app.get("/motherboard/find/{name}", response_model=list[MotherBoard])
+@app.get("/motherboard/find/{name}", response_model=list[MotherBoard], tags=["Motherboard"])
 async def get_motherboard_by_name(name: str):
     response = await motherboard_api.fetch_one(name)
     if response:
@@ -58,13 +62,13 @@ async def get_motherboard_by_name(name: str):
     raise HTTPException(404, "бро, такого нету")
 
 
-@app.get("/motherboard/find", response_model=list[MotherBoard])
+@app.get("/motherboard/find", response_model=list[MotherBoard], tags=["Motherboard"])
 async def get_motherboard_by_parameters(model: MotherBoardSearch = Depends(), limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
     response = await motherboard_api.fetch_by_params(model, limit, skip)
     return response
 
 
-@app.post("/cpu/", response_model=CPU)
+@app.post("/cpu/", response_model=CPU, tags=["CPU"])
 async def post_cpu(cpu: CPU):
     response = await cpu_api.create_one(cpu.dict())
     if response:
@@ -72,13 +76,13 @@ async def post_cpu(cpu: CPU):
     raise HTTPException(404, "я сломался")
 
 
-@app.get("/cpu/all", response_model=list[CPU])
+@app.get("/cpu/all", response_model=list[CPU], tags=["CPU"])
 async def get_cpu(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
     response = await cpu_api.fetch_all(limit, skip)
     return response
 
 
-@app.get("/cpu/find/{name}", response_model=list[CPU])
+@app.get("/cpu/find/{name}", response_model=list[CPU], tags=["CPU"])
 async def get_cpu_by_name(name: str):
     response = await cpu_api.fetch_one(name)
     if response:
@@ -86,7 +90,63 @@ async def get_cpu_by_name(name: str):
     raise HTTPException(404, "бро, такого нету")
 
 
-@app.get("/cpu/find", response_model=list[CPU])
+@app.get("/cpu/find", response_model=list[CPU], tags=["CPU"])
 async def get_cpu_by_parameters(model: CPUSearch = Depends(), limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
     response = await cpu_api.fetch_by_params(model, limit, skip)
+    return response
+
+
+@app.post("/gpu/", response_model=GPU, tags=["GPU"])
+async def post_gpu(gpu: GPU):
+    response = await gpu_api.create_one(gpu.dict())
+    if response:
+        return response
+    raise HTTPException(404, "я сломался")
+
+
+@app.get("/gpu/all", response_model=list[GPU], tags=["GPU"])
+async def get_gpu(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
+    response = await gpu_api.fetch_all(limit, skip)
+    return response
+
+
+@app.get("/gpu/find/{name}", response_model=list[GPU], tags=["GPU"])
+async def get_gpu_by_name(name: str):
+    response = await cpu_api.fetch_one(name)
+    if response:
+        return response
+    raise HTTPException(404, "бро, такого нету")
+
+
+@app.get("/gpu/find", response_model=list[GPU], tags=["GPU"])
+async def get_gpu_by_parameters(model: GPUSearch = Depends(), limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
+    response = await gpu_api.fetch_by_params(model, limit, skip)
+    return response
+
+
+@app.post("/ram/", response_model=RAM, tags=["RAM"])
+async def post_ram(ram: RAM):
+    response = await ram_api.create_one(ram.dict())
+    if response:
+        return response
+    raise HTTPException(404, "я сломался")
+
+
+@app.get("/ram/all", response_model=list[RAM], tags=["RAM"])
+async def get_ram(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
+    response = await ram_api.fetch_all(limit, skip)
+    return response
+
+
+@app.get("/ram/find/{name}", response_model=list[RAM], tags=["RAM"])
+async def get_ram_by_name(name: str):
+    response = await ram_api.fetch_one(name)
+    if response:
+        return response
+    raise HTTPException(404, "бро, такого нету")
+
+
+@app.get("/ram/find", response_model=list[RAM], tags=["RAM"])
+async def get_ram_by_parameters(model: RAMSearch = Depends(), limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
+    response = await ram_api.fetch_by_params(model, limit, skip)
     return response
