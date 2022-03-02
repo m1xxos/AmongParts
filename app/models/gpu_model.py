@@ -35,6 +35,7 @@ class GPU(BaseModel):
     max_power: int
     length: int
     cooling: str
+    photos: List[str] = None
 
 
 @dataclass

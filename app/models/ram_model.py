@@ -21,6 +21,7 @@ class RAM(BaseModel):
     voltage: str
     timing: str
     latency: int
+    photos: List[str] = None
 
 
 @dataclass

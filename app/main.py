@@ -2,15 +2,20 @@ import os
 import motor.motor_asyncio
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends
-from app.databases.motherboard_database import *
-from app.databases.cpu_database import *
-from app.databases.ram_database import *
-from app.databases.gpu_database import *
+from app.databases import *
 from fastapi.middleware.cors import CORSMiddleware
+
+tags_metadata = [
+    {"name": "Motherboard", "description": "Материнские платы"},
+    {"name": "CPU", "description": "Процессоры"},
+    {"name": "GPU", "description": "Видеокарты"},
+    {"name": "RAM", "description": "Оперативная память"},
+    {"name": "PSU", "description": "Блоки питания"},
+]
 
 
 load_dotenv()
-app = FastAPI()
+app = FastAPI(openapi_tags=tags_metadata)
 DEFAULT_LIMIT = 10
 DEFAULT_SKIP = 0
 client = motor.motor_asyncio.AsyncIOMotorClient(os.environ["MONGODB_URL"])
@@ -20,6 +25,7 @@ cpu_api = CpuDB(database.cpu, CPU)
 motherboard_api = MotherboardDB(database.motherboard, MotherBoard)
 ram_api = RamDB(database.ram, RAM)
 gpu_api = GpuDB(database.gpu, GPU)
+psu_api = PsuDB(database.psu, PSU)
 
 
 origins = [
@@ -149,4 +155,32 @@ async def get_ram_by_name(name: str):
 @app.get("/ram/find", response_model=list[RAM], tags=["RAM"])
 async def get_ram_by_parameters(model: RAMSearch = Depends(), limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
     response = await ram_api.fetch_by_params(model, limit, skip)
+    return response
+
+
+@app.post("/psu/", response_model=PSU, tags=["PSU"])
+async def post_psu(psu: PSU):
+    response = await psu_api.create_one(psu.dict())
+    if response:
+        return response
+    raise HTTPException(404, "я сломался")
+
+
+@app.get("/psu/all", response_model=list[PSU], tags=["PSU"])
+async def get_psu(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
+    response = await psu_api.fetch_all(limit, skip)
+    return response
+
+
+@app.get("/psu/find/{name}", response_model=list[PSU], tags=["PSU"])
+async def get_psu_by_name(name: str):
+    response = await psu_api.fetch_one(name)
+    if response:
+        return response
+    raise HTTPException(404, "бро, такого нету")
+
+
+@app.get("/psu/find", response_model=list[PSU], tags=["PSU"])
+async def get_psu_by_parameters(model: PSUSearch = Depends(), limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
+    response = await psu_api.fetch_by_params(model, limit, skip)
     return response

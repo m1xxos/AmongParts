@@ -42,12 +42,13 @@ class MotherBoard(BaseModel):
     bluetooth: Optional[bool] = None
     sli: Optional[str] = None
     power: str
+    photos: List[str] = None
 
 
 @dataclass
 class MotherBoardSearch:
     min_price: Optional[int] = Query(None, ge=1)
-    max_price: Optional[int] = Query(None, le=80000)
+    max_price: Optional[int] = Query(None)
     type: List[str] = Query(None)
     brand: List[str] = Query(None)
     socket: List[str] = Query(None)

@@ -30,6 +30,7 @@ class CPU(BaseModel):
     graphics: bool = None
     graphics_model: str = None
     graphics_speed: str = None
+    photos: List[str] = None
 
 
 @dataclass
@@ -48,4 +49,3 @@ class CPUSearch:
     multiplier: Optional[bool] = None
     pci_version: List[str] = Query(None)
     tdp: List[int] = Query(None)
-
