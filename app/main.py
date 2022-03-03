@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends
 from app.databases import *
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 
 tags_metadata = [
     {"name": "Motherboard", "description": "Материнские платы"},
@@ -41,9 +42,20 @@ app.add_middleware(
 )
 
 
-@app.get("/")
-async def read_root():
-    return {"Hello": "World"}
+@app.get("/", response_class=HTMLResponse)
+async def read_items():
+    html_content = """
+    <html>
+        <head>
+            <title>Some HTML in here</title>
+            <meta name="verify-admitad" content="63e923927a" />
+        </head>
+        <body>
+            <h1>Look ma! HTML!</h1>
+        </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content, status_code=200)
 
 
 @app.post("/motherboard/", response_model=MotherBoard, tags=["Motherboard"])
