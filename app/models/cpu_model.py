@@ -8,7 +8,6 @@ class CPU(BaseModel):
     name: str
     price: int = Query(..., ge=1)
     brand: str
-    manufacture: str
     type: str
     series: str
     core: str
@@ -39,7 +38,6 @@ class CPUSearch:
     max_price: Optional[int] = Query(None)
     type: List[str] = Query(None)
     brand: List[str] = Query(None)
-    manufacture: List[str] = Query(None)
     series: List[str] = Query(None)
     socket: List[str] = Query(None)
     min_frequency: Optional[int] = Query(None, ge=1)
