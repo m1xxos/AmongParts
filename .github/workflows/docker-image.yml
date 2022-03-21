@@ -32,7 +32,7 @@ jobs:
         push: true
         tags: m1xxos/amongpartsapi:latest
     
-    - name: Brun docker image
+    - name: Run docker image
       run: |
         docker rm -f api
         docker pull m1xxos/amongpartsapi
