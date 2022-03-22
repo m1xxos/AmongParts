@@ -10,7 +10,7 @@ jobs:
 
   build:
 
-    runs-on: [self-hosted, linux, X64]
+    runs-on: [self-hosted, linux, ARM64]
 
     steps:
     
@@ -36,5 +36,5 @@ jobs:
       run: |
         docker rm -f api
         docker pull m1xxos/amongpartsapi
-        docker run -d --name api -p 14888:80 -e MONGODB_URL='mongodb://root:example@13.49.227.110:27017' m1xxos/amongpartsapi
+        docker run -d --name api -p 14888:80 -e MONGODB_URL='mongodb://root:example@144.24.171.243:27017' m1xxos/amongpartsapi
 
