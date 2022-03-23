@@ -17,6 +17,8 @@ class MotherboardDB(BaseDB):
             search["type"] = {'$in': motherboard.type}
         if motherboard.brand:
             search["brand"] = {'$in': motherboard.brand}
+        if motherboard.availability:
+            search["availability"] = True
         if motherboard.socket:
             search["socket"] = {'$in': motherboard.socket}
         if motherboard.memory_slots:

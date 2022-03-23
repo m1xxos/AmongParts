@@ -17,6 +17,8 @@ class GpuDB(BaseDB):
             search["type"] = {'$in': gpu.type}
         if gpu.brand:
             search["brand"] = {'$in': gpu.brand}
+        if gpu.availability:
+            search["availability"] = True
         if gpu.manufacture:
             search["manufacture"] = {'$in': gpu.manufacture}
         if gpu.video_chip:

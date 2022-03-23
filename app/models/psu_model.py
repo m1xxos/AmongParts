@@ -5,25 +5,27 @@ from typing import Optional, List
 
 
 class PSU(BaseModel):
-    name: str
-    price: int = Query(..., ge=1)
-    brand: str
-    type: str
-    form_factor: str
-    atx_version: str
-    wattage: int
-    efficiency: int
-    efficiency_standard: str
-    mtbf: str
-    detach_cables: bool
-    braided_cables: bool
-    power_cpu_motherboard: str
-    power_gpu: str
-    sata_amount: int
-    molex_amount: int
-    fdd_amount: int
-    fan_size: str
+    name: str = None
+    price: int = None
+    brand: str = None
+    type: str = None
     photos: List[str] = None
+    links: List[str] = None
+    availability: bool = None
+    form_factor: str = None
+    atx_version: str = None
+    wattage: int = None
+    efficiency: int = None
+    efficiency_standard: str = None
+    mtbf: str = None
+    detach_cables: bool = None
+    braided_cables: bool = None
+    power_cpu_motherboard: str = None
+    power_gpu: str = None
+    sata_amount: int = None
+    molex_amount: int = None
+    fdd_amount: int = None
+    fan_size: str = None
 
 
 @dataclass
@@ -32,6 +34,7 @@ class PSUSearch:
     max_price: Optional[int] = Query(None)
     type: List[str] = Query(None)
     brand: List[str] = Query(None)
+    availability: Optional[bool] = None
     detach_cables: Optional[bool] = None
     braided_cables: Optional[bool] = None
     min_wattage: Optional[int] = Query(None, ge=1)

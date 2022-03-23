@@ -18,6 +18,8 @@ class CpuDB(BaseDB):
             search["type"] = {'$in': cpu.type}
         if cpu.brand:
             search["brand"] = {'$in': cpu.brand}
+        if cpu.availability:
+            search["availability"] = True
         if cpu.manufacture:
             search["manufacture"] = {'$in': cpu.manufacture}
         if cpu.series:

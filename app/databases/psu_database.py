@@ -17,6 +17,8 @@ class PsuDB(BaseDB):
             search["type"] = {'$in': psu.type}
         if psu.brand:
             search["brand"] = {'$in': psu.brand}
+        if psu.availability:
+            search["availability"] = True
         if psu.detach_cables:
             search["detach_cables"] = True
         if psu.braided_cables:

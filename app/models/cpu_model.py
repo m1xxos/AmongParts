@@ -5,31 +5,33 @@ from typing import Optional, List
 
 
 class CPU(BaseModel):
-    name: str
-    price: int = Query(..., ge=1)
-    brand: str
-    type: str
-    series: str
-    core: str
-    socket: str
-    cpu_cores: int = Query(..., ge=1)
-    cpu_threads: int = Query(..., ge=1)
-    frequency: float
-    frequency_turbo: float
-    l3_cache: int
-    architecture: str
-    tech_process: str
-    multiplier: bool
-    tdp: int
-    memory_type: str
-    memory_speed: int
-    memory_channel: int
-    pci_version: str
-    pci_lanes: int
+    name: str = None
+    price: int = None
+    brand: str = None
+    type: str = None
+    photos: List[str] = None
+    links: List[str] = None
+    availability: bool = None
+    series: str = None
+    core: str = None
+    socket: str = None
+    cpu_cores: int = Query(None, ge=1)
+    cpu_threads: int = Query(None, ge=1)
+    frequency: float = None
+    frequency_turbo: float = None
+    l3_cache: int = None
+    architecture: str = None
+    tech_process: str = None
+    multiplier: bool = None
+    tdp: int = None
+    memory_type: str = None
+    memory_speed: int = None
+    memory_channel: int = None
+    pci_version: str = None
+    pci_lanes: int = None
     graphics: bool = None
     graphics_model: str = None
     graphics_speed: str = None
-    photos: List[str] = None
 
 
 @dataclass
@@ -38,6 +40,7 @@ class CPUSearch:
     max_price: Optional[int] = Query(None)
     type: List[str] = Query(None)
     brand: List[str] = Query(None)
+    availability: Optional[bool] = None
     series: List[str] = Query(None)
     socket: List[str] = Query(None)
     min_frequency: Optional[int] = Query(None, ge=1)

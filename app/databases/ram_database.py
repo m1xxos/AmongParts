@@ -17,6 +17,8 @@ class RamDB(BaseDB):
             search["type"] = {'$in': ram.type}
         if ram.brand:
             search["brand"] = {'$in': ram.brand}
+        if ram.availability:
+            search["availability"] = True
         if ram.memory_type:
             search["memory_type"] = {'$in': ram.memory_type}
         if ram.memory_form:

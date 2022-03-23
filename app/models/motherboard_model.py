@@ -52,6 +52,7 @@ class MotherBoardSearch:
     max_price: Optional[int] = Query(None)
     type: List[str] = Query(None)
     brand: List[str] = Query(None)
+    availability: Optional[bool] = None
     socket: List[str] = Query(None)
     memory_slots: List[int] = Query(None)
     chipset: List[str] = Query(None)

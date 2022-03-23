@@ -5,23 +5,25 @@ from typing import Optional, List
 
 
 class RAM(BaseModel):
-    name: str
-    price: int = Query(..., ge=1)
-    brand: str
-    type: str
-    memory_form: str
-    memory_type: str
-    memory_module: int
-    memory_speed: int
-    memory_channel: int
-    module_amount: int
-    combined_amount: int
-    buffer: bool
-    ecc: bool
-    voltage: str
-    timing: str
-    latency: int
+    name: str = None
+    price: int = None
+    brand: str = None
+    type: str = None
     photos: List[str] = None
+    links: List[str] = None
+    availability: bool = None
+    memory_form: str = None
+    memory_type: str = None
+    memory_module: int = None
+    memory_speed: int = None
+    memory_channel: int = None
+    module_amount: int = None
+    combined_amount: int = None
+    buffer: bool = None
+    ecc: bool = None
+    voltage: str = None
+    timing: str = None
+    latency: int = None
 
 
 @dataclass
@@ -30,6 +32,7 @@ class RAMSearch:
     max_price: Optional[int] = Query(None, le=80000)
     type: List[str] = Query(None)
     brand: List[str] = Query(None)
+    availability: Optional[bool] = None
     memory_type: List[str] = Query(None)
     memory_form: List[str] = Query(None)
     memory_speed: List[int] = Query(None)
