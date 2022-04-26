@@ -11,6 +11,7 @@ tags_metadata = [
     {"name": "GPU", "description": "Видеокарты"},
     {"name": "RAM", "description": "Оперативная память"},
     {"name": "PSU", "description": "Блоки питания"},
+    {"name": "SSD", "description": "SSD диски"},
 ]
 
 
@@ -26,6 +27,7 @@ motherboard_api = MotherboardDB(database.motherboard, MotherBoard)
 ram_api = RamDB(database.ram, RAM)
 gpu_api = GpuDB(database.gpu, GPU)
 psu_api = PsuDB(database.psu, PSU)
+ssd_api = SsdDB(database.ssd, SSD)
 
 app.add_middleware(
     CORSMiddleware,
@@ -179,3 +181,17 @@ async def get_psu_by_name(name: str):
 async def get_psu_by_parameters(model: PSUSearch = Depends(), limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
     response = await psu_api.fetch_by_params(model, limit, skip)
     return response
+
+
+@app.get("/ssd/all", response_model=list[SSD], tags=["SSD"])
+async def get_motherboard(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
+    response = await ssd_api.fetch_all(limit, skip)
+    return response
+
+
+@app.get("/ssd/find/{name}", response_model=list[SSD], tags=["SSD"])
+async def get_ssd_by_name(name: str):
+    response = await ssd_api.fetch_one(name)
+    if response:
+        return response
+    raise HTTPException(404, "бро, такого нету")
