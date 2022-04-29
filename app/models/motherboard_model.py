@@ -71,4 +71,7 @@ class MotherBoardSearch:
     sli: Optional[str] = None
 
 
+class MotherBoardResponse(BaseModel):
+    amount: int
+    data: list[MotherBoard]
 

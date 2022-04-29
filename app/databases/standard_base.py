@@ -7,14 +7,16 @@ class BaseDB:
     async def create_one(self, cpu):
         document = cpu
         result = await self.collection.insert_one(document)
-        return document
+        return result
 
     async def fetch_all(self, limit, skip):
         cpus = []
         cursor = self.collection.find({}).limit(limit).skip(skip)
+        amount = await self.collection.count_documents({})
+
         async for document in cursor:
             cpus.append(self.model(**document))
-        return cpus
+        return amount, cpus
 
     async def fetch_one(self, name):
         cpus = []

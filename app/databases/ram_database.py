@@ -1,5 +1,5 @@
 from app.models.ram_model import RAM, RAMSearch
-from app.databases.database_base import BaseDB
+from app.databases.standard_base import BaseDB
 
 
 class RamDB(BaseDB):

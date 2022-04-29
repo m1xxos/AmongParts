@@ -1,5 +1,5 @@
 from app.models.gpu_model import GPU, GPUSearch
-from app.databases.database_base import BaseDB
+from app.databases.standard_base import BaseDB
 
 
 class GpuDB(BaseDB):

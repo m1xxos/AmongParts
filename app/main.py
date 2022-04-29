@@ -1,9 +1,12 @@
 import os
+
 import motor.motor_asyncio
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends
 from app.databases import *
 from fastapi.middleware.cors import CORSMiddleware
+
+from app.routes.standard_router import BaseRouter
 
 tags_metadata = [
     {"name": "Motherboard", "description": "Материнские платы"},
@@ -29,6 +32,10 @@ gpu_api = GpuDB(database.gpu, GPU)
 psu_api = PsuDB(database.psu, PSU)
 ssd_api = SsdDB(database.ssd, SSD)
 
+motherboard_route = BaseRouter(motherboard_api)
+ssd_route = BaseRouter(ssd_api)
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -45,24 +52,17 @@ async def read_root():
 
 @app.post("/motherboard/", response_model=MotherBoard, tags=["Motherboard"])
 async def post_motherboard(motherboard: MotherBoard):
-    response = await motherboard_api.create_one(motherboard.dict())
-    if response:
-        return response
-    raise HTTPException(404, "я сломался")
+    return await motherboard_route.post_category(motherboard)
 
 
-@app.get("/motherboard/all", response_model=list[MotherBoard], tags=["Motherboard"])
+@app.get("/motherboard/all", response_model=MotherBoardResponse, tags=["Motherboard"])
 async def get_motherboard(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
-    response = await motherboard_api.fetch_all(limit, skip)
-    return response
+    return await motherboard_route.get_category(limit, skip)
 
 
 @app.get("/motherboard/find/{name}", response_model=list[MotherBoard], tags=["Motherboard"])
 async def get_motherboard_by_name(name: str):
-    response = await motherboard_api.fetch_one(name)
-    if response:
-        return response
-    raise HTTPException(404, "бро, такого нету")
+    return await motherboard_route.get_by_name(name)
 
 
 @app.get("/motherboard/find", response_model=list[MotherBoard], tags=["Motherboard"])
@@ -183,15 +183,13 @@ async def get_psu_by_parameters(model: PSUSearch = Depends(), limit: int = DEFAU
     return response
 
 
-@app.get("/ssd/all", response_model=list[SSD], tags=["SSD"])
-async def get_motherboard(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
-    response = await ssd_api.fetch_all(limit, skip)
-    return response
+@app.get("/ssd/all", response_model=SSDResponse, tags=["SSD"])
+async def get_ssd(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
+    return await ssd_route.get_category(limit, skip)
 
 
-@app.get("/ssd/find/{name}", response_model=list[SSD], tags=["SSD"])
+@app.get("/ssd/find/{name:path}", response_model=list[SSD], tags=["SSD"])
 async def get_ssd_by_name(name: str):
-    response = await ssd_api.fetch_one(name)
-    if response:
-        return response
-    raise HTTPException(404, "бро, такого нету")
+    return await ssd_route.get_by_name(name)
+
+# app.include_router(ssd_route.router)

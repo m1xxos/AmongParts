@@ -1,5 +1,5 @@
 from app.models.psu_model import PSU, PSUSearch
-from app.databases.database_base import BaseDB
+from app.databases.standard_base import BaseDB
 
 
 class PsuDB(BaseDB):

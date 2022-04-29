@@ -1,5 +1,5 @@
 from app.models.cpu_model import CPU, CPUSearch
-from app.databases.database_base import BaseDB
+from app.databases.standard_base import BaseDB
 
 
 class CpuDB(BaseDB):
