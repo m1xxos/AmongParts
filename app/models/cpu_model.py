@@ -2,36 +2,40 @@ from pydantic import BaseModel
 from pydantic.dataclasses import dataclass
 from fastapi import Query
 from typing import Optional, List
+from app.models.standart_model import *
 
 
-class CPU(BaseModel):
-    name: str = None
-    price: int = None
-    brand: str = None
-    type: str = None
-    photos: List[str] = None
-    links: List[str] = None
-    availability: bool = None
-    series: str = None
-    core: str = None
-    socket: str = None
-    cpu_cores: int = Query(None, ge=1)
-    cpu_threads: int = Query(None, ge=1)
-    frequency: float = None
-    frequency_turbo: float = None
-    l3_cache: int = None
-    architecture: str = None
-    tech_process: str = None
-    multiplier: bool = None
-    tdp: int = None
-    memory_type: str = None
-    memory_speed: int = None
-    memory_channel: int = None
-    pci_version: str = None
-    pci_lanes: int = None
-    graphics: bool = None
-    graphics_model: str = None
-    graphics_speed: str = None
+# class CPU(BaseModel):
+#     name: str = None
+#     price: int = None
+#     brand: str = None
+#     type: str = None
+#     photos: List[str] = None
+#     links: List[str] = None
+#     availability: bool = None
+#     series: str = None
+#     core: str = None
+#     socket: str = None
+#     cpu_cores: int = Query(None, ge=1)
+#     cpu_threads: int = Query(None, ge=1)
+#     frequency: float = None
+#     frequency_turbo: float = None
+#     l3_cache: int = None
+#     architecture: str = None
+#     tech_process: str = None
+#     multiplier: bool = None
+#     tdp: int = None
+#     memory_type: str = None
+#     memory_speed: int = None
+#     memory_channel: int = None
+#     pci_version: str = None
+#     pci_lanes: int = None
+#     graphics: bool = None
+#     graphics_model: str = None
+#     graphics_speed: str = None
+
+class CPU(StandardModel):
+    pass
 
 
 @dataclass
@@ -50,3 +54,7 @@ class CPUSearch:
     multiplier: Optional[bool] = None
     pci_version: List[str] = Query(None)
     tdp: List[int] = Query(None)
+
+
+class CPUResponse(StandardModelResponse):
+    pass

@@ -17,9 +17,17 @@ class BaseRouter:
             return response
         raise HTTPException(404, "Ничего не найдено")
 
+    async def get_by_parameters(self, model, limit, skip):
+        response = await self.api.fetch_by_params(model, limit, skip)
+        if response:
+            return response
+        raise HTTPException(404, "Ничего не найдено")
+
     async def post_category(self, category):
         response = await self.api.create_one(category.dict())
         if response:
             return response
         raise HTTPException(404, "Произошла ошибка")
+
+
 

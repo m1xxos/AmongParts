@@ -1,5 +1,4 @@
 import os
-
 import motor.motor_asyncio
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends
@@ -32,7 +31,11 @@ gpu_api = GpuDB(database.gpu, GPU)
 psu_api = PsuDB(database.psu, PSU)
 ssd_api = SsdDB(database.ssd, SSD)
 
+cpu_route = BaseRouter(cpu_api)
 motherboard_route = BaseRouter(motherboard_api)
+ram_router = BaseRouter(ram_api)
+gpu_router = BaseRouter(gpu_api)
+psu_router = BaseRouter(psu_api)
 ssd_route = BaseRouter(ssd_api)
 
 
@@ -60,127 +63,94 @@ async def get_motherboard(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
     return await motherboard_route.get_category(limit, skip)
 
 
-@app.get("/motherboard/find/{name}", response_model=list[MotherBoard], tags=["Motherboard"])
+@app.get("/motherboard/find/{name:path}", response_model=list[MotherBoard], tags=["Motherboard"])
 async def get_motherboard_by_name(name: str):
     return await motherboard_route.get_by_name(name)
 
 
 @app.get("/motherboard/find", response_model=list[MotherBoard], tags=["Motherboard"])
 async def get_motherboard_by_parameters(model: MotherBoardSearch = Depends(), limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
-    response = await motherboard_api.fetch_by_params(model, limit, skip)
-    return response
+    return await motherboard_route.get_by_parameters(model, limit, skip)
 
 
 @app.post("/cpu/", response_model=CPU, tags=["CPU"])
 async def post_cpu(cpu: CPU):
-    response = await cpu_api.create_one(cpu.dict())
-    if response:
-        return response
-    raise HTTPException(404, "я сломался")
+    return await cpu_route.post_category(cpu)
 
 
-@app.get("/cpu/all", response_model=list[CPU], tags=["CPU"])
+@app.get("/cpu/all", response_model=CPUResponse, tags=["CPU"])
 async def get_cpu(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
-    response = await cpu_api.fetch_all(limit, skip)
-    return response
+    return await cpu_route.get_category(limit, skip)
 
 
-@app.get("/cpu/find/{name}", response_model=list[CPU], tags=["CPU"])
+@app.get("/cpu/find/{name:path}", response_model=list[CPU], tags=["CPU"])
 async def get_cpu_by_name(name: str):
-    response = await cpu_api.fetch_one(name)
-    if response:
-        return response
-    raise HTTPException(404, "бро, такого нету")
+    return await cpu_route.get_by_name(name)
 
 
 @app.get("/cpu/find", response_model=list[CPU], tags=["CPU"])
 async def get_cpu_by_parameters(model: CPUSearch = Depends(), limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
-    response = await cpu_api.fetch_by_params(model, limit, skip)
-    return response
+    return await cpu_route.get_by_parameters(model, limit, skip)
 
 
 @app.post("/gpu/", response_model=GPU, tags=["GPU"])
 async def post_gpu(gpu: GPU):
-    response = await gpu_api.create_one(gpu.dict())
-    if response:
-        return response
-    raise HTTPException(404, "я сломался")
+    return await gpu_router.post_category(gpu)
 
 
-@app.get("/gpu/all", response_model=list[GPU], tags=["GPU"])
+@app.get("/gpu/all", response_model=GPUResponse, tags=["GPU"])
 async def get_gpu(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
-    response = await gpu_api.fetch_all(limit, skip)
-    return response
+    return await gpu_router.get_category(limit, skip)
 
 
-@app.get("/gpu/find/{name}", response_model=list[GPU], tags=["GPU"])
+@app.get("/gpu/find/{name:path}", response_model=list[GPU], tags=["GPU"])
 async def get_gpu_by_name(name: str):
-    response = await cpu_api.fetch_one(name)
-    if response:
-        return response
-    raise HTTPException(404, "бро, такого нету")
+    return await gpu_router.get_by_name(name)
 
 
 @app.get("/gpu/find", response_model=list[GPU], tags=["GPU"])
 async def get_gpu_by_parameters(model: GPUSearch = Depends(), limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
-    response = await gpu_api.fetch_by_params(model, limit, skip)
-    return response
+    return await gpu_router.get_by_parameters(model, limit, skip)
 
 
 @app.post("/ram/", response_model=RAM, tags=["RAM"])
 async def post_ram(ram: RAM):
-    response = await ram_api.create_one(ram.dict())
-    if response:
-        return response
-    raise HTTPException(404, "я сломался")
+    return await ram_router.post_category(ram)
 
 
-@app.get("/ram/all", response_model=list[RAM], tags=["RAM"])
+@app.get("/ram/all", response_model=RAMResponse, tags=["RAM"])
 async def get_ram(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
-    response = await ram_api.fetch_all(limit, skip)
-    return response
+    return await ram_router.get_category(limit, skip)
 
 
 @app.get("/ram/find/{name}", response_model=list[RAM], tags=["RAM"])
 async def get_ram_by_name(name: str):
-    response = await ram_api.fetch_one(name)
-    if response:
-        return response
-    raise HTTPException(404, "бро, такого нету")
+    return await ram_router.get_by_name(name)
 
 
 @app.get("/ram/find", response_model=list[RAM], tags=["RAM"])
 async def get_ram_by_parameters(model: RAMSearch = Depends(), limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
-    response = await ram_api.fetch_by_params(model, limit, skip)
-    return response
+    return await ram_router.get_by_parameters(model, limit, skip)
 
 
 @app.post("/psu/", response_model=PSU, tags=["PSU"])
 async def post_psu(psu: PSU):
-    response = await psu_api.create_one(psu.dict())
-    if response:
-        return response
-    raise HTTPException(404, "я сломался")
+    return await psu_router.post_category(psu)
 
 
-@app.get("/psu/all", response_model=list[PSU], tags=["PSU"])
+@app.get("/psu/all", response_model=PSUResponse, tags=["PSU"])
 async def get_psu(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
-    response = await psu_api.fetch_all(limit, skip)
-    return response
+    return await psu_router.get_category(limit, skip)
 
 
-@app.get("/psu/find/{name}", response_model=list[PSU], tags=["PSU"])
+@app.get("/psu/find/{name:path}", response_model=list[PSU], tags=["PSU"])
 async def get_psu_by_name(name: str):
-    response = await psu_api.fetch_one(name)
-    if response:
-        return response
-    raise HTTPException(404, "бро, такого нету")
+    return await psu_router.get_by_name(name)
 
 
 @app.get("/psu/find", response_model=list[PSU], tags=["PSU"])
 async def get_psu_by_parameters(model: PSUSearch = Depends(), limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
-    response = await psu_api.fetch_by_params(model, limit, skip)
-    return response
+    return await psu_router.get_by_parameters(model, limit, skip)
 
 
 @app.get("/ssd/all", response_model=SSDResponse, tags=["SSD"])

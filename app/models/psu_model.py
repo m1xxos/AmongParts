@@ -1,10 +1,14 @@
 from pydantic.dataclasses import dataclass
 from fastapi import Query
 from typing import Optional, List
-from app.models.standart_model import StandardModel
+from app.models.standart_model import *
 
 
 class PSU(StandardModel):
+    pass
+
+
+class PSUResponse(StandardModelResponse):
     pass
 
 

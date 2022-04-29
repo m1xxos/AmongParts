@@ -1,4 +1,4 @@
-from app.models.ram_model import RAM, RAMSearch
+from app.models.ram_model import *
 from app.databases.standard_base import BaseDB
 
 

@@ -1,4 +1,4 @@
-from app.models.gpu_model import GPU, GPUSearch
+from app.models.gpu_model import *
 from app.databases.standard_base import BaseDB
 
 

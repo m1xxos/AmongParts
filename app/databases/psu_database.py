@@ -1,4 +1,4 @@
-from app.models.psu_model import PSU, PSUSearch
+from app.models.psu_model import *
 from app.databases.standard_base import BaseDB
 
 

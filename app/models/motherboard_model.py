@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from pydantic.dataclasses import dataclass
 from fastapi import Query
 from typing import Optional, List
+from app.models.standart_model import *
 
 
 class MotherBoard(BaseModel):
@@ -70,8 +71,9 @@ class MotherBoardSearch:
     m_2: Optional[bool] = None
     sli: Optional[str] = None
 
-
+#TODO поменять на StandartModelResponse
 class MotherBoardResponse(BaseModel):
     amount: int
     data: list[MotherBoard]
+
 

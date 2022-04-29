@@ -7,5 +7,6 @@ from app.models.standart_model import *
 class SSD(StandardModel):
     pass
 
+
 class SSDResponse(StandardModelResponse):
     pass

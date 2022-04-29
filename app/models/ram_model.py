@@ -3,27 +3,36 @@ from pydantic.dataclasses import dataclass
 from fastapi import Query
 from typing import Optional, List
 
+from app.models.standart_model import *
 
-class RAM(BaseModel):
-    name: str = None
-    price: int = None
-    brand: str = None
-    type: str = None
-    photos: List[str] = None
-    links: List[str] = None
-    availability: bool = None
-    memory_form: str = None
-    memory_type: str = None
-    memory_module: int = None
-    memory_speed: int = None
-    memory_channel: int = None
-    module_amount: int = None
-    combined_amount: int = None
-    buffer: bool = None
-    ecc: bool = None
-    voltage: str = None
-    timing: str = None
-    latency: int = None
+# class RAM(BaseModel):
+#     name: str = None
+#     price: int = None
+#     brand: str = None
+#     type: str = None
+#     photos: List[str] = None
+#     links: List[str] = None
+#     availability: bool = None
+#     memory_form: str = None
+#     memory_type: str = None
+#     memory_module: int = None
+#     memory_speed: int = None
+#     memory_channel: int = None
+#     module_amount: int = None
+#     combined_amount: int = None
+#     buffer: bool = None
+#     ecc: bool = None
+#     voltage: str = None
+#     timing: str = None
+#     latency: int = None
+
+
+class RAM(StandardModel):
+    pass
+
+
+class RAMResponse(StandardModelResponse):
+    pass
 
 
 @dataclass
