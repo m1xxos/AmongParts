@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routes import *
-from .globals import router
-from .user.user_auth import auth_backend
-from .user.user_router import fastapi_users
+from app.routes import *
+from app.globals import router
+from app.user.user_auth import auth_backend
+from app.user.user_router import fastapi_users
 
 tags_metadata = [
     {"name": "auth", "description": "Авторизация"},

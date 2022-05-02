@@ -1,7 +1,7 @@
 import motor.motor_asyncio
 from fastapi_users.db import MongoDBUserDatabase
-from ..globals import client
-from ..models.user_model import UserDB
+from app.globals import client
+from app.models.user_model import UserDB
 
 
 db = client["AmongUsers"]
