@@ -2,8 +2,6 @@ from app.databases import SsdDB
 from app.models.ssd_model import SSD, SSDResponse
 from app.routes.standard_router import BaseRouter
 from app.globals import DEFAULT_SKIP, DEFAULT_LIMIT, database, router
-from fastapi import Depends
-
 
 ssd_api = SsdDB(database.ssd, SSD)
 ssd_route = BaseRouter(ssd_api)

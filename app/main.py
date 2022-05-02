@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.globals import router
-
+from .routes import *
+from .globals import router
 
 tags_metadata = [
     {"name": "Motherboard", "description": "Материнские платы"},
