@@ -4,12 +4,19 @@ from .routes import *
 from .globals import router
 
 tags_metadata = [
-    {"name": "Motherboard", "description": "Материнские платы"},
+    {"name": "Case", "description": "Компьютерные кейсы"},
     {"name": "CPU", "description": "Процессоры"},
+    {"name": "Disk Enclosure", "description": "Карманы для накопителей"},
     {"name": "GPU", "description": "Видеокарты"},
-    {"name": "RAM", "description": "Оперативная память"},
+    {"name": "HDD", "description": "Жёсткие диски"},
+    {"name": "Motherboard", "description": "Материнские платы"},
+    {"name": "Optical drive", "description": "Оптические диски"},
+    {"name": "Pci controller", "description": "PCI контроллеты"},
     {"name": "PSU", "description": "Блоки питания"},
+    {"name": "RAM", "description": "Оперативная память"},
+    {"name": "Sound card", "description": "Звуковые карты"},
     {"name": "SSD", "description": "SSD диски"},
+    {"name": "Thermo paste", "description": "Термопасты"},
 ]
 
 app = FastAPI(openapi_tags=tags_metadata)
