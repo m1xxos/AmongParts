@@ -13,8 +13,8 @@ class BaseDB:
         cpus = []
         cursor = self.collection.find({}).limit(limit).skip(skip)
         amount = await self.collection.count_documents({})
-
         async for document in cursor:
+            document['specifications'] = [{"key": key, "value": value} for key, value in document['specifications'].items()]
             cpus.append(self.model(**document))
         return amount, cpus
 

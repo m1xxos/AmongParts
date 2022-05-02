@@ -11,6 +11,11 @@ class MarketItem(BaseModel):
     product_price: int = Field(..., alias='product price')
 
 
+class FieldItems(BaseModel):
+    field: str
+    value: str
+
+
 class StandardModel(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
@@ -18,7 +23,7 @@ class StandardModel(BaseModel):
     reviews: Optional[Any] = None
     images: Optional[List[str]] = None
     videos: Optional[List[str]] = None
-    specifications: Optional[dict] = None
+    specifications: Optional[list] = None
     market: Optional[List[MarketItem]] = None
 
 
