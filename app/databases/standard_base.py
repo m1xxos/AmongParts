@@ -14,7 +14,8 @@ class BaseDB:
         cursor = self.collection.find({}).limit(limit).skip(skip)
         amount = await self.collection.count_documents({})
         async for document in cursor:
-            document['specifications'] = [{"key": key, "value": value} for key, value in document['specifications'].items()]
+            document['specifications'] = [{"key": key, "value": value} for key, value in
+                                          document['specifications'].items()]
             cpus.append(self.model(**document))
         return amount, cpus
 
@@ -23,6 +24,8 @@ class BaseDB:
         find_string = {"name": name}
         cursor = self.collection.find(find_string)
         async for document in cursor:
+            document['specifications'] = [{"key": key, "value": value} for key, value in
+                                          document['specifications'].items()]
             cpus.append(self.model(**document))
         return cpus
 
