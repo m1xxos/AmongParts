@@ -1,7 +1,7 @@
 from app.databases import RamDB
 from app.models.ram_model import RAM, RAMResponse, RAMSearch
 from app.routes.standard_router import BaseRouter
-from app.globals import DEFAULT_SKIP, DEFAULT_LIMIT, database, router
+from app.globals import DEFAULT_SKIP, DEFAULT_LIMIT, database, router, DEFAULT_SORT, DEFAULT_DIRECTION
 from fastapi import Depends
 
 ram_api = RamDB(database.ram, RAM)
@@ -14,15 +14,15 @@ async def post_ram(ram: RAM):
 
 
 @router.get("/ram/all", response_model=RAMResponse, tags=["RAM"])
-async def get_ram(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
-    return await ram_router.get_category(limit, skip)
+async def get_ram(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP, sort: str = DEFAULT_SORT, direction: int = DEFAULT_DIRECTION):
+    return await ram_router.get_category(limit, skip, sort, direction)
 
 
-@router.get("/ram/find/{name}", response_model=list[RAM], tags=["RAM"])
+@router.get("/ram/get/{name}", response_model=RAM, tags=["RAM"])
 async def get_ram_by_name(name: str):
     return await ram_router.get_by_name(name)
 
 
-@router.get("/ram/find", response_model=list[RAM], tags=["RAM"])
+@router.get("/ram/find", response_model=RAM, tags=["RAM"])
 async def get_ram_by_parameters(model: RAMSearch = Depends(), limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
     return await ram_router.get_by_parameters(model, limit, skip)

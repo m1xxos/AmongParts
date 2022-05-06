@@ -7,12 +7,12 @@ class BaseRouter:
     def __init__(self, api: BaseDB):
         self.api = api
 
-    async def get_category(self, limit, skip):
-        response_amount, response = await self.api.fetch_all(limit, skip)
+    async def get_category(self, limit, skip, sort, direction):
+        response_amount, response = await self.api.fetch_all(limit, skip, sort, direction)
         return {"amount": response_amount, "data": response}
 
     async def get_by_name(self, name):
-        response = await self.api.fetch_one(name)
+        response = (await self.api.fetch_one(name))
         if response:
             return response
         raise HTTPException(404, "Ничего не найдено")

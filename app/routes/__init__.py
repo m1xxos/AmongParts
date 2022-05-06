@@ -1,4 +1,6 @@
+import app.routes.case_cooling_router
 import app.routes.case_router
+import app.routes.cpu_cooling_route
 import app.routes.cpu_router
 import app.routes.disk_enclosure_router
 import app.routes.gpu_router

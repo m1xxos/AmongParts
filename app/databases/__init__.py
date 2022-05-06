@@ -1,4 +1,6 @@
+from app.databases.case_cooling_database import *
 from app.databases.case_database import *
+from app.databases.cpu_cooling_database import *
 from app.databases.cpu_database import *
 from app.databases.disk_enclosure_database import *
 from app.databases.gpu_database import *

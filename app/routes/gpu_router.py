@@ -1,7 +1,7 @@
 from app.databases import GpuDB
 from app.models.gpu_model import GPU, GPUResponse, GPUSearch
 from app.routes.standard_router import BaseRouter
-from app.globals import DEFAULT_SKIP, DEFAULT_LIMIT, database, router
+from app.globals import DEFAULT_SKIP, DEFAULT_LIMIT, database, router, DEFAULT_SORT, DEFAULT_DIRECTION
 from fastapi import Depends
 
 gpu_api = GpuDB(database.gpu, GPU)
@@ -14,11 +14,11 @@ async def post_gpu(gpu: GPU):
 
 
 @router.get("/gpu/all", response_model=GPUResponse, tags=["GPU"])
-async def get_gpu(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
-    return await gpu_router.get_category(limit, skip)
+async def get_gpu(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP, sort: str = DEFAULT_SORT, direction: int = DEFAULT_DIRECTION):
+    return await gpu_router.get_category(limit, skip, sort, direction)
 
 
-@router.get("/gpu/find/{name:path}", response_model=list[GPU], tags=["GPU"])
+@router.get("/gpu/get/{name:path}", response_model=GPU, tags=["GPU"])
 async def get_gpu_by_name(name: str):
     return await gpu_router.get_by_name(name)
 

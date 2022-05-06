@@ -8,7 +8,9 @@ from app.user.user_router import fastapi_users
 tags_metadata = [
     {"name": "auth", "description": "Авторизация"},
     {"name": "users", "description": "Пользователи"},
+    {"name": "Case Cooling", "description": "Система охлаждения для корпуса"},
     {"name": "Case", "description": "Компьютерные кейсы"},
+    {"name": "CPU Cooling", "description": "Система охлаждения для процессора"},
     {"name": "CPU", "description": "Процессоры"},
     {"name": "Disk Enclosure", "description": "Карманы для накопителей"},
     {"name": "GPU", "description": "Видеокарты"},

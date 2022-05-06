@@ -20,6 +20,7 @@ class StandardModel(BaseModel):
     videos: Optional[List[str]] = None
     specifications: Optional[list] = None
     market: Optional[List[MarketItem]] = None
+    link_name: Optional[str] = None
 
 
 class StandardModelResponse(BaseModel):
