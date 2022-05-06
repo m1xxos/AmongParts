@@ -2,7 +2,7 @@ from fastapi_users.authentication import AuthenticationBackend, BearerTransport,
 
 SECRET = "IAMGAY"
 
-cookie_transport = CookieTransport(cookie_max_age=3600)
+cookie_transport = CookieTransport(cookie_max_age=3600, cookie_samesite="none")
 
 
 def get_jwt_strategy() -> JWTStrategy:
