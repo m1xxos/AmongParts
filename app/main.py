@@ -27,7 +27,7 @@ app = FastAPI(openapi_tags=tags_metadata)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:4200", "https://amongparts.ga"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
