@@ -1,3 +1,4 @@
+import typing
 from typing import Optional
 
 from beanie import PydanticObjectId
@@ -7,7 +8,7 @@ from pydantic import Field
 
 class User(BeanieBaseUser[PydanticObjectId]):
     username: str = Field()
-    builds: Optional[list] = Field([])
+    builds: list = Field()
 
 
 async def get_user_db():

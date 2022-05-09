@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 class Specs(BaseModel):
     motherboard: Optional[str] = None
     cpu: Optional[str] = None
-    ram: Optional[str] = None
+    ram: Optional[str]
     ssd: Optional[str] = None
     hdd: Optional[str] = None
     gpu: Optional[str] = None
@@ -16,9 +16,9 @@ class Specs(BaseModel):
     cpu_cooling: Optional[str] = None
     case_cooling: Optional[str] = None
     enclosure: Optional[str] = None
-    pci: Optional[str] = None
-    optical: Optional[str] = None
-    paste: Optional[str] = None
+    pci: Optional[str]
+    optical: Optional[str]
+    paste: Optional[str]
 
 
 class Build(BaseModel):
