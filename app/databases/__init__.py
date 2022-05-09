@@ -1,3 +1,4 @@
+from app.databases.build_database import *
 from app.databases.case_cooling_database import *
 from app.databases.case_database import *
 from app.databases.cpu_cooling_database import *

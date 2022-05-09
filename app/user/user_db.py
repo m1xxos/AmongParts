@@ -1,12 +1,14 @@
-import motor.motor_asyncio
-from fastapi_users.db import MongoDBUserDatabase
-from app.globals import client
-from app.models.user_model import UserDB
+from typing import Optional
+
+from beanie import PydanticObjectId
+from fastapi_users.db import BeanieBaseUser, BeanieUserDatabase
+from pydantic import Field
 
 
-db = client["AmongUsers"]
-collection = db["users"]
+class User(BeanieBaseUser[PydanticObjectId]):
+    username: str = Field()
+    builds: Optional[list] = Field([])
 
 
 async def get_user_db():
-    yield MongoDBUserDatabase(UserDB, collection)
+    yield BeanieUserDatabase(User)

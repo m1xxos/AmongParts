@@ -1,16 +1,16 @@
-from fastapi_users import FastAPIUsers
-from fastapi_users.authentication import JWTStrategy
+import uuid
 
-from app.models.user_model import User, UserCreate, UserUpdate, UserDB
-from app.user.user_auth import get_jwt_strategy, auth_backend
+from fastapi_users import FastAPIUsers
+
+from app.user.user_auth import auth_backend
+from app.user.user_db import User
 from app.user.user_manager import get_user_manager
 
 
-fastapi_users = FastAPIUsers(
+fastapi_users = FastAPIUsers[User, uuid.UUID](
     get_user_manager,
     [auth_backend],
-    User,
-    UserCreate,
-    UserUpdate,
-    UserDB,
 )
+
+current_active_user = fastapi_users.current_user(active=True)
+

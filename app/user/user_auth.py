@@ -1,4 +1,4 @@
-from fastapi_users.authentication import AuthenticationBackend, BearerTransport, JWTStrategy, CookieTransport
+from fastapi_users.authentication import AuthenticationBackend, JWTStrategy, CookieTransport
 
 SECRET = "IAMGAY"
 

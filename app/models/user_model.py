@@ -1,17 +1,19 @@
-from fastapi_users import models
+import uuid
+
+from fastapi_users import schemas
+from pydantic import Field
 
 
-class User(models.BaseUser):
-    pass
+# TODO Уникальные имена
+class UserRead(schemas.BaseUser[uuid.UUID]):
+    username: str = Field()
+    builds: list = Field()
 
 
-class UserCreate(models.BaseUserCreate):
-    pass
+class UserCreate(schemas.BaseUserCreate):
+    username: str = Field()
 
 
-class UserUpdate(models.BaseUserUpdate):
-    pass
-
-
-class UserDB(User, models.BaseUserDB):
-    pass
+class UserUpdate(schemas.BaseUserUpdate):
+    username: str = Field()
+    builds: list = Field()

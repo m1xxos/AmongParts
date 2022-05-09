@@ -7,7 +7,9 @@ class BaseDB:
     async def create_one(self, cpu):
         document = cpu
         result = await self.collection.insert_one(document)
-        return result
+        check = await self.collection.find_one({"_id": result.inserted_id})
+        del check["_id"]
+        return check
 
     async def fetch_all(self, limit, skip, sort, sort_direction):
         cpus = []
