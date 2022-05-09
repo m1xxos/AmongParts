@@ -8,7 +8,7 @@ from pydantic import Field
 
 class User(BeanieBaseUser[PydanticObjectId]):
     username: str = Field()
-    builds: list = Field()
+    builds: Optional[list] = Field([])
 
 
 async def get_user_db():

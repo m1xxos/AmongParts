@@ -1,4 +1,4 @@
-import typing
+from typing import Optional
 import uuid
 
 from fastapi_users import schemas
