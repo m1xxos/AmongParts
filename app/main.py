@@ -10,6 +10,7 @@ from app.user.user_router import fastapi_users, current_active_user
 
 tags_metadata = [
     {"name": "auth", "description": "Авторизация"},
+    {"name": "Search", "description": "Поиск компонентов"},
     {"name": "Build", "description": "Сборки"},
     {"name": "users", "description": "Пользователи"},
     {"name": "Case Cooling", "description": "Система охлаждения для корпуса"},

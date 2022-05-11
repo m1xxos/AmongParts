@@ -17,4 +17,3 @@ class UserCreate(schemas.BaseUserCreate):
 
 class UserUpdate(schemas.BaseUserUpdate):
     username: str = Field()
-    builds: list = Field()

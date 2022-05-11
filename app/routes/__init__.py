@@ -11,6 +11,7 @@ import app.routes.optical_drive_router
 import app.routes.pci_controller_routes
 import app.routes.psu_router
 import app.routes.ram_router
+import app.routes.search_route
 import app.routes.sound_card_router
 import app.routes.ssd_router
 import app.routes.thermo_paste_router
