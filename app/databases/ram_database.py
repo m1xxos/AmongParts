@@ -33,7 +33,7 @@ class RamDB(BaseDB):
             search["voltage"] = {'$in': ram.voltage}
         if ram.memory_module:
             search["memory_module"] = {'$in': ram.memory_module}
-        
+
         cursor = self.collection.find(search).limit(limit).skip(skip)
         async for document in cursor:
             rams.append(RAM(**document))
