@@ -1,9 +1,10 @@
 import motor.motor_asyncio
 
-from app.globals import DEFAULT_SKIP, DEFAULT_LIMIT, router
+from app.globals import DEFAULT_LIMIT, router
 
 client = motor.motor_asyncio.AsyncIOMotorClient(
-    "mongodb+srv://m1xxos:vn9OAsrfRrCEMSmx@amongpartscluster.jbzts.mongodb.net/test?authSource=admin&replicaSet=atlas-2yea7s-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
+    "mongodb+srv://m1xxos:vn9OAsrfRrCEMSmx@amongpartscluster.jbzts.mongodb.net/test?authSource=admin&replicaSet=atlas"
+    "-2yea7s-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
 database = client.AmongParts
 
 
@@ -19,12 +20,16 @@ async def search_all(name: str, limit: int = DEFAULT_LIMIT):
                 }
             }
         },
-        {"$limit": limit}
+        {"$limit": limit},
+        {
+            '$project': {
+                '_id': 0
+            }
+        }
     ]
     cursor = database["summary"].aggregate(pipeline)
     results = []
     async for res in cursor:
-        del res['_id']
         results.append(res)
     return results
 
@@ -44,11 +49,15 @@ async def search_all(category: str, name: str, limit: int = DEFAULT_LIMIT):
             '$match': {
                 'category': category
             }
-        }, {"$limit": limit}
+        }, {"$limit": limit},
+        {
+            '$project': {
+                '_id': 0
+            }
+        }
     ]
     cursor = database["summary"].aggregate(pipeline)
     results = []
     async for res in cursor:
-        del res['_id']
         results.append(res)
     return results

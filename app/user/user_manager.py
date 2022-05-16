@@ -2,12 +2,7 @@ from typing import Optional
 
 from beanie import PydanticObjectId
 from fastapi import Depends, Request
-from fastapi_users import BaseUserManager, FastAPIUsers
-from fastapi_users.authentication import (
-    AuthenticationBackend,
-    BearerTransport,
-    JWTStrategy,
-)
+from fastapi_users import BaseUserManager
 from fastapi_users.db import BeanieUserDatabase, ObjectIDIDMixin
 
 from .user_db import User, get_user_db

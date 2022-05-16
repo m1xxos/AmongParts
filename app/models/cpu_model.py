@@ -1,7 +1,6 @@
-from pydantic import BaseModel
-from pydantic.dataclasses import dataclass
 from fastapi import Query
-from typing import Optional, List
+from pydantic.dataclasses import dataclass
+
 from app.models.standart_model import *
 
 

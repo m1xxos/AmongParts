@@ -7,8 +7,7 @@ class BaseDB:
     async def create_one(self, cpu):
         document = cpu
         result = await self.collection.insert_one(document)
-        check = await self.collection.find_one({"_id": result.inserted_id})
-        del check["_id"]
+        check = await self.collection.find_one({"_id": result.inserted_id}, {"_id": 0})
         return check
 
     async def fetch_all(self, limit, skip, sort, sort_direction):
@@ -38,10 +37,5 @@ class BaseDB:
             document = self.model(**document)
         return document
 
-    # TODO сделай кароче 1 таблицу со всеми и тобавь туда категории
-    async def find_by_name(self, name):
-        return None
-
     async def fetch_by_params(self, *args):
         return None
-

@@ -13,6 +13,8 @@ api = BuildDB(database["build"], Build)
 async def post_build(build: BuildPost = Body(...), user: User = Depends(current_active_user)):
     build = build.dict()
     build['username'] = user.username
+    if not build["name"]:
+        raise HTTPException(400, "Необходимо указать название сборки")
     build['link_name'] = slugify(build['name'])
     response = await api.create_one(build)
     if response:
@@ -23,9 +25,17 @@ async def post_build(build: BuildPost = Body(...), user: User = Depends(current_
     raise HTTPException(404, "Произошла ошибка")
 
 
+@router.post('/build/like/', tags=["Build"])
+async def like_build(name: str, user: User = Depends(current_active_user)):
+    result = await api.like_build(name, user)
+    user.builds.append(result)
+    await user.save()
+    return result
+
+
 @router.get("/build/all", response_model=BuildResponse, tags=["Build"])
-async def get_build(limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
-    response_amount, response = await api.fetch_all_build(limit, skip)
+async def get_build(build_type: str = None, limit: int = DEFAULT_LIMIT, skip: int = DEFAULT_SKIP):
+    response_amount, response = await api.fetch_all_build(build_type, limit, skip)
     return {"amount": response_amount, "data": response}
 
 
