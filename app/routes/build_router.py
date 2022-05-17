@@ -18,8 +18,10 @@ async def post_build(build: BuildPost = Body(...), user: User = Depends(current_
     build['link_name'] = slugify(build['name'])
     response = await api.create_one(build)
     if response:
-        user.builds.append({"name": build["name"], "descriprion": build['description'], "image": build["image"],
-                            "link_name": build["link_name"]})
+        build = response
+        build['specifications'] = {key: value["name"] if value else value for key, value in
+                                   build['specifications'].items()}
+        user.builds.append(build)
         await user.save()
         return response
     raise HTTPException(404, "Произошла ошибка")
@@ -28,7 +30,7 @@ async def post_build(build: BuildPost = Body(...), user: User = Depends(current_
 @router.post('/build/like/', tags=["Build"])
 async def like_build(name: str, user: User = Depends(current_active_user)):
     result = await api.like_build(name, user)
-    user.builds.append(result)
+    user.liked_builds.append(result)
     await user.save()
     return result
 
@@ -45,3 +47,9 @@ async def get_build_by_name(name: str):
     if response:
         return response
     raise HTTPException(404, "Ничего не найдено")
+
+
+@router.get("/users/builds", tags=["users"])
+async def get_users_builds(user: User = Depends(current_active_user)):
+    result = await api.fetch_user_builds(user)
+    return result

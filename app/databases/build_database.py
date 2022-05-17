@@ -69,11 +69,25 @@ class BuildDB(BaseDB):
         return document
 
     async def like_build(self, name, user: User):
-        for use_build in user.builds:
-            if use_build['name'] == name:
-                raise HTTPException(400, "Эта сборка уже у вас есть")
         build = await self.fetch_one(name)
+        if user.username == build['username']:
+            raise HTTPException(400, "Эта сборка у вас уже есть")
+        for use_build in user.liked_builds:
+            if use_build['link_name'] == name:
+                raise HTTPException(400, "Эта сборка у вас уже есть")
 
-        user_build = {"name": build["name"], "descriprion": build['description'], "image": build["image"],
-                      "link_name": build["link_name"]}
+        build['specifications'] = {key: value["name"] if value else value for key, value in
+                                   build['specifications'].items()}
+        user_build = build
         return user_build
+
+    async def fetch_user_builds(self, user: User):
+        builds = user.builds
+        for build in builds:
+            build['specifications'] = [{"key": key, "value": value} for key, value in
+                                       build['specifications'].items() if value]
+        liked_builds = user.liked_builds
+        for build in liked_builds:
+            build['specifications'] = [{"key": key, "value": value} for key, value in
+                                       build['specifications'].items() if value]
+        return {"builds": builds, "liked_builds": liked_builds}

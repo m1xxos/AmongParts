@@ -9,6 +9,7 @@ from pydantic import Field
 class UserRead(schemas.BaseUser[uuid.UUID]):
     username: str = Field()
     builds: list = Field()
+    liked_builds: list = Field()
 
 
 class UserCreate(schemas.BaseUserCreate):
