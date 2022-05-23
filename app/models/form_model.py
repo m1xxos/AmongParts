@@ -6,4 +6,5 @@ class FormModel(BaseModel):
     email: str
     phone_number: str
     description: str
-    price: bool
+    price: float
+    type: str

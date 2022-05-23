@@ -35,7 +35,6 @@ class BuildPost(BaseModel):
     name: Optional[str] = None
     type: Optional[str] = None
     description: Optional[str] = None
-    image: Optional[str] = None
     specifications: Specs
 
 

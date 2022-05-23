@@ -15,3 +15,4 @@ import app.routes.search_route
 import app.routes.sound_card_router
 import app.routes.ssd_router
 import app.routes.thermo_paste_router
+import app.routes.form_routes
