@@ -18,14 +18,12 @@ async def validate_build(build):
 
 
 def add_image(build):
-    image = build['image']
-    if not build['image']:
-        if build['specifications']['case']:
-            image = build['specifications']['case']['images'][0]
-        elif build['specifications']['motherboard']:
-            image = build['specifications']['motherboard']['images'][0]
-        else:
-            image = "https://minio.amongparts.ga/korpusa/default.png"
+    if build['specifications']['case']:
+        image = build['specifications']['case']['images'][0]
+    elif build['specifications']['motherboard']:
+        image = build['specifications']['motherboard']['images'][0]
+    else:
+        image = "https://minio.amongparts.ga/korpusa/default.png"
 
     return image
 
